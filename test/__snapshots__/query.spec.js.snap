@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test aggregation 1`] = `
+Object {
+  "data": Object {
+    "queryAuthorJoinPost": Array [
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 88,
+        "email": "vilurazu@vuse.tk",
+        "id": "1",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 32,
+        "email": "pi@ga.co.uk",
+        "id": "6",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 54,
+        "email": "on@puveca.in",
+        "id": "8",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 35,
+        "email": "cor@viiru.jp",
+        "id": "9",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 33,
+        "email": "ijsettav@mo.tl",
+        "id": "10",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 34,
+        "email": "ige@pib.ph",
+        "id": "11",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 70,
+        "email": "avo@ped.cc",
+        "id": "12",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 61,
+        "email": "de@bosdufzi.ps",
+        "id": "13",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 69,
+        "email": "ru@etu.er",
+        "id": "14",
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 89,
+        "email": "kezhupur@topevgos.gov",
+        "id": "15",
+      },
+    ],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test complicate search 1`] = `
+Object {
+  "data": Object {
+    "queryAuthor": Array [],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test limit and offset 1`] = `
+Object {
+  "data": Object {
+    "queryPost": Array [
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "3",
+        "title": "Gokgor kezli lazgoh gaw nite mewseun do supma.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "4",
+        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "6",
+        "title": "Ewa oku lufbu erehec jeda ci ej ru.",
+      },
+    ],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test multiple queries in a request 1`] = `
+Object {
+  "data": Object {
+    "getAuthor": Object {
+      "__typename": "Author",
+      "email": "vilurazu@vuse.tk",
+      "id": "1",
+    },
+    "queryPost": Array [
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "3333",
+        "title": "new post 3333",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "99",
+        "title": "Nokcar conuk mi rub rokdul en tunnegov zojan.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "98",
+        "title": "Jeaka govut iva liczizig denbu ecjob fov amofi.",
+      },
+    ],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test nested query 1`] = `
+Object {
+  "data": Object {
+    "queryPost": Array [
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Object {
+          "__typename": "Author",
+          "company": Object {
+            "__typename": "Company",
+            "domain": "nouco.cn",
+          },
+          "email": "ur@moej.wf",
+        },
+        "id": "2",
+        "title": "new post 2222",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Object {
+          "__typename": "Author",
+          "company": Object {
+            "__typename": "Company",
+            "domain": "nitdopfiz.ro",
+          },
+          "email": "vilurazu@vuse.tk",
+        },
+        "id": "3",
+        "title": "Gokgor kezli lazgoh gaw nite mewseun do supma.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Object {
+          "__typename": "Author",
+          "company": Object {
+            "__typename": "Company",
+            "domain": "nouco.cn",
+          },
+          "email": "ur@moej.wf",
+        },
+        "id": "4",
+        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
+      },
+    ],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test simple query 1`] = `
+Object {
+  "data": Object {
+    "getAuthor": Object {
+      "__typename": "Author",
+      "email": "vilurazu@vuse.tk",
+      "id": "1",
+    },
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`test sort 1`] = `
+Object {
+  "data": Object {
+    "queryPost": Array [
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "3333",
+        "title": "new post 3333",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "99",
+        "title": "Nokcar conuk mi rub rokdul en tunnegov zojan.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "98",
+        "title": "Jeaka govut iva liczizig denbu ecjob fov amofi.",
+      },
+    ],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;

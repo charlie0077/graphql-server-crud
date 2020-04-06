@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test bulk delete 1`] = `
+Object {
+  "data": Object {
+    "bulkDeletePost": Array [
+      Object {
+        "__typename": "Post",
+        "id": "0",
+        "title": "Udwirte nifenlu ubugahuf rugnu huweg raskew fawkidij lomoru.",
+      },
+      Object {
+        "__typename": "Post",
+        "id": "2222",
+        "title": "new post 2222",
+      },
+    ],
+  },
+}
+`;
+
+exports[`test bulk insert 1`] = `
+Object {
+  "data": Object {
+    "bulkInsertPost": Array [
+      Object {
+        "__typename": "Post",
+        "id": "2222",
+        "title": "new post 2222",
+      },
+      Object {
+        "__typename": "Post",
+        "id": "3333",
+        "title": "new post 3333",
+      },
+    ],
+  },
+}
+`;
+
+exports[`test bulk update 1`] = `
+Object {
+  "data": Object {
+    "bulkUpdatePost": Array [
+      null,
+      null,
+    ],
+  },
+}
+`;
+
+exports[`test delete 1`] = `
+Object {
+  "data": Object {
+    "deletePost": Object {
+      "__typename": "Post",
+      "id": "1111",
+      "title": "new post 1111",
+    },
+  },
+}
+`;
+
+exports[`test insert 1`] = `
+Object {
+  "data": Object {
+    "insertPost": Object {
+      "__typename": "Post",
+      "id": "1111",
+      "title": "new post 1111",
+    },
+  },
+}
+`;
+
+exports[`test no returning value 1`] = `
+Object {
+  "data": Object {
+    "updatePost": null,
+  },
+}
+`;
+
+exports[`test update 1`] = `
+Object {
+  "data": Object {
+    "updatePost": null,
+  },
+}
+`;
