@@ -7,14 +7,16 @@
   "keywords": "graphql, crud, boilerplate, database, resolvers, typedefs, orm, knex, graphql-server, graphql-api, graphql-crud, graphql-server-crud, graphql-api-crud",
   "main": "dist/index.js",
   "scripts": {
-    "test": "cd example && npm run seed && cd .. && jest --runInBand",
-    "test-coverage": "cd example && npm run seed && cd .. && jest --coverage --runInBand",
     "build": "babel src --out-dir dist",
     "lint": "eslint --ext .js src test example",
     "lint-fix": "eslint --ext .js src test example --fix",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "release": "npm run test && npm run lint && npm run build && npm publish"
+    "release": "npm run test-coverage && npm run lint && npm run build && npm publish",
+    "server": "nodemon example/index.js",
+    "seed": "npx knex seed:run --knexfile=./example/knexfile.js",
+    "test": "env $(cat .env) npm run seed && jest --runInBand --detectOpenHandles --forceExit",
+    "test-coverage": "env $(cat .cov.env) npm run seed && env $(cat .cov.env) nyc --include src node example/index.js & env $(cat .cov.env) jest --runInBand --detectOpenHandles --forceExit && kill $(lsof -t -i tcp:4567) && nyc report --reporter=html"
   },
   "author": "Zhenchao Chen",
   "license": "MIT",
@@ -27,6 +29,7 @@
     "apollo-boost": "^0.4.7",
     "apollo-server-testing": "^2.11.0",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.3.0",
     "cross-fetch": "^3.0.4",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
@@ -35,7 +38,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.2.0",
+    "graphql-server-example": "file:example",
+    "jest": "^25.3.0",
+    "nyc": "^15.0.1",
     "regenerator-runtime": "^0.13.5",
     "vuepress": "^1.0.0-rc.1"
   },

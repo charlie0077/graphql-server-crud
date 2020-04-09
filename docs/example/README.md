@@ -3,6 +3,7 @@
 There is an [example project](https://github.com/charlie0077/graphql-server-crud/tree/master/example) for you to play with. 
 
 ## Setup
+
 ### Launch database
 ```sh
 cd example/database
@@ -21,6 +22,10 @@ npm install
 npm run seed # this will seed the data
 npm start
 ```
+::: warning 
+COMPATIBILITY NOTE: This example code requires Node.js >= 12.
+:::
+
 You should be able to access the graphql playground on [http://localhost:4000/](http://localhost:4000/)
 
 ## Try query in the playground

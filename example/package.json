@@ -15,13 +15,13 @@
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-middleware": "^4.0.2",
-    "graphql-server-crud": "^0.1.13",
+    "graphql-server-crud": "latest",
     "knex": "^0.20.13",
-    "pg": "^7.18.2"
+    "pg": "^7.18.2",
+    "chance": "^1.1.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "chance": "^1.1.4",
     "eslint-plugin-graphql": "^3.1.1"
   }
 }

@@ -1,13 +1,21 @@
-import ApolloClient, { gql } from 'apollo-boost'
-import 'cross-fetch/polyfill'
+import { client } from './apolloClient'
+import { gql } from 'apollo-boost'
 
-export const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
-  onError: (e) => { console.log(e) }
-})
+export const query = () => {
+  test('test simple query 1', async () => {
+    const query = gql`
+    query {
+      getUserInfo(id: "1") {
+        id
+      }
+    }
+  `
 
-test('test simple query', async () => {
-  const query = gql`
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
+
+  test('test simple query', async () => {
+    const query = gql`
     query {
       getAuthor(id: "1") {
         id
@@ -16,11 +24,11 @@ test('test simple query', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test nested query', async () => {
-  const query = gql`
+  test('test nested query', async () => {
+    const query = gql`
     query {
       queryPost(
         where: { id: { gt: "1" } }
@@ -40,11 +48,11 @@ test('test nested query', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test aggregation', async () => {
-  const query = gql`
+  test('test aggregation', async () => {
+    const query = gql`
     query {
       queryAuthorJoinPost(
         where: {
@@ -65,11 +73,11 @@ test('test aggregation', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test complicate search', async () => {
-  const query = gql`
+  test('test complicate search', async () => {
+    const query = gql`
     query {
       queryAuthor(
         where: {
@@ -99,11 +107,11 @@ test('test complicate search', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test limit and offset', async () => {
-  const query = gql`
+  test('test limit and offset', async () => {
+    const query = gql`
     query {
       queryPost(
         offset: 0
@@ -115,11 +123,11 @@ test('test limit and offset', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test sort', async () => {
-  const query = gql`
+  test('test sort', async () => {
+    const query = gql`
     query {
       queryPost(
         where: { id: { gt: "1" } }
@@ -133,11 +141,11 @@ test('test sort', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
 
-test('test multiple queries in a request', async () => {
-  const query = gql`
+  test('test multiple queries in a request', async () => {
+    const query = gql`
     query {
       queryPost(
         where: { id: { gt: "1" } }
@@ -156,5 +164,6 @@ test('test multiple queries in a request', async () => {
     }
   `
 
-  expect(await client.query({ query: query })).toMatchSnapshot()
-})
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
+}

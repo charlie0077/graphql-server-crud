@@ -38,7 +38,7 @@ addTypeDefs(typeDefs, models)
 addResolvers(resolvers, models)
 ```
 
-You can check a full example file [here](https://github.com/charlie0077/graphql-server-crud/blob/master/example/index.js). 
+You can check a full example file [here](https://github.com/charlie0077/graphql-server-crud/blob/master/example/server.js). 
 
 ## That is it!
 You have a basic CRUD endpoint for **Company** now.

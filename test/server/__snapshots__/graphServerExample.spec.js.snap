@@ -1,6 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test aggregation 1`] = `
+exports[`Mutation Tests test bulk delete 1`] = `
+Object {
+  "data": Object {
+    "bulkDeletePost": Array [
+      Object {
+        "__typename": "Post",
+        "id": "0",
+        "title": "Udwirte nifenlu ubugahuf rugnu huweg raskew fawkidij lomoru.",
+      },
+      Object {
+        "__typename": "Post",
+        "id": "2222",
+        "title": "new post 2222",
+      },
+    ],
+  },
+}
+`;
+
+exports[`Mutation Tests test bulk insert 1`] = `
+Object {
+  "data": Object {
+    "bulkInsertPost": Array [
+      Object {
+        "__typename": "Post",
+        "id": "2222",
+        "title": "new post 2222",
+      },
+      Object {
+        "__typename": "Post",
+        "id": "3333",
+        "title": "new post 3333",
+      },
+    ],
+  },
+}
+`;
+
+exports[`Mutation Tests test bulk update 1`] = `
+Object {
+  "data": Object {
+    "bulkUpdatePost": Array [
+      null,
+      null,
+    ],
+  },
+}
+`;
+
+exports[`Mutation Tests test delete 1`] = `
+Object {
+  "data": Object {
+    "deletePost": Object {
+      "__typename": "Post",
+      "id": "1111",
+      "title": "new post 1111",
+    },
+  },
+}
+`;
+
+exports[`Mutation Tests test insert 1`] = `
+Object {
+  "data": Object {
+    "insertPost": Object {
+      "__typename": "Post",
+      "id": "1111",
+      "title": "new post 1111",
+    },
+  },
+}
+`;
+
+exports[`Mutation Tests test no returning value 1`] = `
+Object {
+  "data": Object {
+    "updatePost": null,
+  },
+}
+`;
+
+exports[`Mutation Tests test update 1`] = `
+Object {
+  "data": Object {
+    "updatePost": null,
+  },
+}
+`;
+
+exports[`Query Tests test aggregation 1`] = `
 Object {
   "data": Object {
     "queryAuthorJoinPost": Array [
@@ -72,7 +161,7 @@ Object {
 }
 `;
 
-exports[`test complicate search 1`] = `
+exports[`Query Tests test complicate search 1`] = `
 Object {
   "data": Object {
     "queryAuthor": Array [],
@@ -83,24 +172,24 @@ Object {
 }
 `;
 
-exports[`test limit and offset 1`] = `
+exports[`Query Tests test limit and offset 1`] = `
 Object {
   "data": Object {
     "queryPost": Array [
       Object {
         "__typename": "PostWithAggregation",
-        "id": "3",
-        "title": "Gokgor kezli lazgoh gaw nite mewseun do supma.",
+        "id": "0",
+        "title": "Udwirte nifenlu ubugahuf rugnu huweg raskew fawkidij lomoru.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "id": "4",
-        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
+        "id": "1",
+        "title": "Igijuto ne ruj mab ipju dan ros benozezu.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "id": "6",
-        "title": "Ewa oku lufbu erehec jeda ci ej ru.",
+        "id": "2",
+        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
       },
     ],
   },
@@ -110,7 +199,7 @@ Object {
 }
 `;
 
-exports[`test multiple queries in a request 1`] = `
+exports[`Query Tests test multiple queries in a request 1`] = `
 Object {
   "data": Object {
     "getAuthor": Object {
@@ -121,11 +210,6 @@ Object {
     "queryPost": Array [
       Object {
         "__typename": "PostWithAggregation",
-        "id": "3333",
-        "title": "new post 3333",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
         "id": "99",
         "title": "Nokcar conuk mi rub rokdul en tunnegov zojan.",
       },
@@ -133,6 +217,11 @@ Object {
         "__typename": "PostWithAggregation",
         "id": "98",
         "title": "Jeaka govut iva liczizig denbu ecjob fov amofi.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "97",
+        "title": "Buufa judosbup ec mepecmu nezojeave sehgieru foakepi emgotez.",
       },
     ],
   },
@@ -142,7 +231,7 @@ Object {
 }
 `;
 
-exports[`test nested query 1`] = `
+exports[`Query Tests test nested query 1`] = `
 Object {
   "data": Object {
     "queryPost": Array [
@@ -157,7 +246,7 @@ Object {
           "email": "ur@moej.wf",
         },
         "id": "2",
-        "title": "new post 2222",
+        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
       },
       Object {
         "__typename": "PostWithAggregation",
@@ -193,7 +282,7 @@ Object {
 }
 `;
 
-exports[`test simple query 1`] = `
+exports[`Query Tests test simple query 1`] = `
 Object {
   "data": Object {
     "getAuthor": Object {
@@ -208,15 +297,24 @@ Object {
 }
 `;
 
-exports[`test sort 1`] = `
+exports[`Query Tests test simple query 1 1`] = `
+Object {
+  "data": Object {
+    "getUserInfo": Object {
+      "__typename": "UserInfo",
+      "id": "1",
+    },
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`Query Tests test sort 1`] = `
 Object {
   "data": Object {
     "queryPost": Array [
-      Object {
-        "__typename": "PostWithAggregation",
-        "id": "3333",
-        "title": "new post 3333",
-      },
       Object {
         "__typename": "PostWithAggregation",
         "id": "99",
@@ -226,6 +324,11 @@ Object {
         "__typename": "PostWithAggregation",
         "id": "98",
         "title": "Jeaka govut iva liczizig denbu ecjob fov amofi.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": "97",
+        "title": "Buufa judosbup ec mepecmu nezojeave sehgieru foakepi emgotez.",
       },
     ],
   },

@@ -1,6 +1,5 @@
-// const { ModelBase } = require('graphql-server-crud')
-// I am using the src for my quick local test, you may want to switch to use the line above
-const { ModelBase } = require('../../src')
+const libPath = process.env.NODE_ENV === 'test' ? '../../src' : 'graphql-server-crud'
+const { ModelBase } = require(libPath)
 
 const { knex } = require('../db')
 

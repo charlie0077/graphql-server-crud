@@ -2,20 +2,18 @@ const Chance = require('chance')
 const chance = new Chance(0)
 
 async function createTable (knex) {
-  await knex.raw(`
-    DROP TABLE IF EXISTS "companies";
-    CREATE TABLE companies (
+  const queries = [
+    'DROP TABLE IF EXISTS "companies";',
+    `CREATE TABLE companies (
       id bigint PRIMARY KEY,
       domain text,
       public boolean,
       phone text,
       sales float,
       customers bigint
-    );
-    
-
-    DROP TABLE IF EXISTS "authors";
-    CREATE TABLE authors (
+    );`,
+    'DROP TABLE IF EXISTS "authors";',
+    `CREATE TABLE authors (
       id bigint PRIMARY KEY,
       company_id bigint,
       first_name text,
@@ -23,18 +21,21 @@ async function createTable (knex) {
       email text,
       age bigint,
       salary float
-    );
-    
-    DROP TABLE IF EXISTS "posts";    
-    CREATE TABLE posts (
+    );`,
+    'DROP TABLE IF EXISTS "posts";',
+    `CREATE TABLE posts (
       id bigint PRIMARY KEY,
       author_id bigint,
       title text,
       public boolean,
       clicks bigint,
       score float
-    );
-  `)
+    );`
+  ]
+
+  for (let i = 0; i < queries.length; i++) {
+    await knex.raw(queries[i])
+  }
 }
 
 async function seedCompany (knex) {
