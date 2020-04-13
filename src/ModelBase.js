@@ -12,6 +12,9 @@ class ModelBase {
     // this can be a table or derived table using query
     table = 'THIS_TABLE_DOES_NOT_EXIST'
 
+    // unique column
+    uniqueColumn = 'id'
+
     // fields
     fields = {}
 
@@ -123,7 +126,7 @@ class ModelBase {
 
       let res = await sql
       if (['GET', 'SEARCH'].includes(type)) {
-        res = transformReadResult(res, args, context[CONTEXT_KEY])
+        res = transformReadResult(res, args, context[CONTEXT_KEY], this)
       }
 
       if (type.includes('SEARCH') || type.includes('BULK')) {

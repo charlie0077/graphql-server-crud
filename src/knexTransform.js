@@ -172,17 +172,19 @@ function having (selection, query, knex, table) {
   })
 }
 
-function getFields (parsedResolveInfo, knex, table) {
+function getFields (parsedResolveInfo, model, table) {
   const stringFields = getStringFieldsFromInfo(parsedResolveInfo)
   const fields = stringFields.map(field => field.name)
+  // always select unique column, so that we know how to rearrange the result later
+  fields.push(model.uniqueColumn)
 
   const res = fields.map(field => {
     if (field.includes('__')) {
       const splits = field.split('__')
       if (field.includes('__count_distinct')) {
-        return knex.raw(`count(distinct "${table}"."${splits[0]}") as ${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${field}`)
+        return model.knex.raw(`count(distinct "${table}"."${splits[0]}") as ${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${field}`)
       } else {
-        return knex.raw(`${splits[1]}("${table}"."${splits[0]}") as ${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${field}`)
+        return model.knex.raw(`${splits[1]}("${table}"."${splits[0]}") as ${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${field}`)
       }
     } else {
       return `${table}.${field} as ${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${field}`
@@ -225,7 +227,7 @@ function join (sql, context, model, parsedResolveInfo) {
     // select string fields of this layer
     const stringFields = getStringFieldsFromInfo(modelField)
     // add id filed so that is easy to infer later
-    stringFields.push({ name: 'id' })
+    stringFields.push({ name: fieldModel.uniqueColumn })
     stringFields.forEach(stringField => {
       const colName = stringField.name
       sql = sql.select(`${tableName}.${colName} as ${tableName}${JOIN_TABLE_SEPARATOR}${colName}`)
@@ -237,6 +239,7 @@ function join (sql, context, model, parsedResolveInfo) {
 
 function transformRead (sql, args, limit, offset, context, model) {
   const table = model.baseTable()
+  context.modelInstancesMapping[BASE_TABLE] = model
   sql = sql.limit(limit)
   sql = sql.offset(offset)
 
@@ -251,7 +254,7 @@ function transformRead (sql, args, limit, offset, context, model) {
     })
   }
 
-  const fields = getFields(args.parsedResolveInfo, model.knex, table)
+  const fields = getFields(args.parsedResolveInfo, model, table)
   if (fields) {
     sql = sql.select(fields)
   }
@@ -282,13 +285,19 @@ function getTableNames (res) {
   return names
 }
 
-function buildModelResultMapping (res, parentChild, fieldTableMapping) {
+function buildModelResultMapping (res, parentChild, context) {
+  const fieldTableMapping = buildFiledTableMapping(context)
   const tableNames = getTableNames(res)
   const tableFieldMapping = swapKeyValue(fieldTableMapping)
-
   const mapping = {}
   tableNames.forEach(tableName => {
     mapping[tableFieldMapping[tableName]] = {}
+  })
+
+  const uniqueColumnMapping = {}
+  tableNames.forEach(tableName => {
+    const uniqueColumn = context.modelInstancesMapping[tableFieldMapping[tableName]].uniqueColumn
+    uniqueColumnMapping[tableName] = `${tableName}${JOIN_TABLE_SEPARATOR}${uniqueColumn}`
   })
 
   const ids = {}
@@ -302,7 +311,7 @@ function buildModelResultMapping (res, parentChild, fieldTableMapping) {
     const idMapping = {}
 
     tableNames.forEach(tableName => {
-      const id = each[`${tableName}${JOIN_TABLE_SEPARATOR}id`]
+      const id = each[uniqueColumnMapping[tableName]]
       mapping[tableFieldMapping[tableName]][id] = {}
       idMapping[tableName] = id
     })
@@ -353,17 +362,25 @@ function getParentChild (parsedResolveInfo) {
   return parentChild
 }
 
-function fillNestedValue (current, res, modelResultMapping, parsedResolveInfo) {
+function fillNestedValue (current, res, modelResultMapping, parsedResolveInfo, context) {
+  const currentModel = context.modelInstancesMapping[current]
   const ids = modelResultMapping.ids
   const objects = modelResultMapping.mapping
   const modelFields = getModelFieldsFromInfo(parsedResolveInfo)
   modelFields.forEach(field => {
     const child = field.name
+
+    // determine idColumn
+    let idColumn = currentModel.uniqueColumn
+    if (currentModel.fields[child].through) {
+      idColumn = currentModel.fields[child].through.from.split('.').pop()
+    }
+
     res.forEach(record => {
-      record[child] = ids[current][child][record.id]
+      record[child] = ids[current][child][record[idColumn]]
       if (!_.isNil(record[child])) {
-        record[child] = record[child].map(id => objects[child][id])
-        fillNestedValue(child, record[child], modelResultMapping, field)
+        record[child] = record[child].map(each => objects[child][each])
+        fillNestedValue(child, record[child], modelResultMapping, field, context)
       }
     })
   })
@@ -371,29 +388,28 @@ function fillNestedValue (current, res, modelResultMapping, parsedResolveInfo) {
 
 function buildFiledTableMapping (context) {
   const mapping = {}
-  mapping[BASE_TABLE] = BASE_TABLE
   for (const name in context.modelInstancesMapping) {
     mapping[name] = context.modelInstancesMapping[name].table
   }
+  mapping[BASE_TABLE] = BASE_TABLE
   return mapping
 }
 
-function saveOrders (res) {
+function saveOrders (res, uniqueColumn) {
   const orders = new Set()
   res.forEach(each => {
-    orders.add(each[`${BASE_TABLE}___id`])
+    orders.add(each[`${BASE_TABLE}___${uniqueColumn}`])
   })
   return Array.from(orders)
 }
 
-function transformReadResult (res, args, context) {
+function transformReadResult (res, args, context, model) {
   if (res.length === 0) return res
-  const orders = saveOrders(res)
+  const orders = saveOrders(res, model.uniqueColumn)
   const parentChild = getParentChild(args.parsedResolveInfo)
-  const fieldTableMapping = buildFiledTableMapping(context)
-  const modelResultMapping = buildModelResultMapping(res, parentChild, fieldTableMapping)
-  res = orders.map(id => modelResultMapping.mapping[BASE_TABLE][id])
-  fillNestedValue(BASE_TABLE, res, modelResultMapping, args.parsedResolveInfo)
+  const modelResultMapping = buildModelResultMapping(res, parentChild, context)
+  res = orders.map(each => modelResultMapping.mapping[BASE_TABLE][each])
+  fillNestedValue(BASE_TABLE, res, modelResultMapping, args.parsedResolveInfo, context)
   return res
 }
 

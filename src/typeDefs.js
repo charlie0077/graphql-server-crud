@@ -107,7 +107,7 @@ function buildQuery (model) {
   }
 
   if (model.queryToGenerate.includes('GET')) {
-    partial += `get${modelName}(id: ${model.fields.id}!): ${modelName},\n`
+    partial += `get${modelName}(${model.uniqueColumn}: ${model.fields[model.uniqueColumn]}!): ${modelName},\n`
   }
 
   if (model.queryToGenerate.includes('FETCH')) {

@@ -174,22 +174,16 @@ export const query = () => {
     const query = gql`
       query {
         queryAuthorJoinPost(
-          where: {
-            post_id: { gt: 2 }
-          }
+          where: { post_id: { gt: 2 } }
           orderBy: [{ column: "id", order: "asc" }]
           limit: 10
           offset: 0
           groupBy: ["id", "email"]
-          having: {
-            age__avg: {gt: 30}
-            id: {nin: [1, 2, 3]}
-          }
+          having: { age__avg: { gt: 30 }, id: { nin: [1, 2, 6] } }
         ) {
           id
           email
           age__avg
-          id__count_distinct
         }
       }
   `
