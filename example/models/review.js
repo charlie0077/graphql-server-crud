@@ -7,6 +7,9 @@ class Review extends Base {
     content: 'String',
     star: 'Float'
   }
+
+  // do not expose this
+  queryToGenerate = []
 }
 
 module.exports = { Review }

@@ -1,13 +1,14 @@
-const { isEmpty, buildModelInstancesMapping } = require('./utils')
+const { buildModelInstancesMapping } = require('./utils')
 const camelCase = require('camelcase')
 const { CONTEXT_KEY } = require('./constants')
 const { parseResolveInfo } = require('graphql-parse-resolve-info')
+const _ = require('lodash')
 
 function addResolvers (resolvers, models) {
   const modelInstancesMapping = buildModelInstancesMapping(models)
   const resolversGenerated = Object.values(modelInstancesMapping).map(
     model => buildResolver(model, modelInstancesMapping)
-  ).filter(x => !isEmpty(x))
+  ).filter(x => !_.isEmpty(x))
   resolvers.push(...resolversGenerated)
   return resolvers
 }
@@ -32,11 +33,11 @@ function buildResolver (model, modelInstancesMapping) {
     Mutation: mutation
   }
 
-  if (isEmpty(res.Query)) {
+  if (_.isEmpty(res.Query)) {
     delete res.Query
   }
 
-  if (isEmpty(res.Mutation)) {
+  if (_.isEmpty(res.Mutation)) {
     delete res.Mutation
   }
   return res

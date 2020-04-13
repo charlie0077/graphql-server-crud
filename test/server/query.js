@@ -22,7 +22,7 @@ export const query = () => {
         where: { id: { gt: 1 } }
         offset: 0
         limit: 300
-        orderBy: { column: "id", order: "asc" }
+        orderBy: { column: "id", order: "desc" }
       ) {
         id
         title
@@ -46,7 +46,7 @@ export const query = () => {
         where: { id: { gt: 1 } }
         offset: 0
         limit: 300
-        orderBy: { column: "id", order: "asc" }
+        orderBy: { column: "id"}
       ) {
         id
         title
@@ -74,7 +74,7 @@ export const query = () => {
       ) {
         id
         title
-        author (joinType: "leftJoin") {
+        author (joinType: "leftJoin", on: {id: {gt: 2}}) {
           email
           company {
             domain
@@ -91,7 +91,7 @@ export const query = () => {
     const query = gql`
     query {
       queryPost(
-        where: { id: { gt: 1 } }
+        where: { id: { nbetween: [1, 4] } }
         offset: 0
         limit: 300
         orderBy: { column: "id", order: "asc" }
@@ -122,7 +122,7 @@ export const query = () => {
         ) {
           id
           title
-          author (joinType: "leftJoin", on: {id: {gt: 3}}) {
+          author (joinType: "leftJoin", on: {id: {between: [1, 5]}}) {
             email
             id
             company(joinType: "leftJoin") {
@@ -147,7 +147,10 @@ export const query = () => {
         ) {
           id
           email
-          post (joinType: "leftJoin", on: {id: {gt: 11}}) {
+          post(
+            joinType: "leftJoin"
+            on: { id: { in: [1, 2, 3] }, title: { nin: ["test"] } }
+          ) {
             title
             id
           }
@@ -155,12 +158,13 @@ export const query = () => {
             domain
             id
           }
-          review(on: {star: {gt: 4}}){
+          review(on: { star: { between: [1, 5] } }) {
             id
             star
           }
         }
       }
+
     `
 
     expect(await client.query({ query: query })).toMatchSnapshot()
@@ -168,24 +172,26 @@ export const query = () => {
 
   test('test aggregation', async () => {
     const query = gql`
-    query {
-      queryAuthorJoinPost(
-        where: {
-          post_id: { gt: 2 }
+      query {
+        queryAuthorJoinPost(
+          where: {
+            post_id: { gt: 2 }
+          }
+          orderBy: [{ column: "id", order: "asc" }]
+          limit: 10
+          offset: 0
+          groupBy: ["id", "email"]
+          having: {
+            age__avg: {gt: 30}
+            id: {nin: [1, 2, 3]}
+          }
+        ) {
+          id
+          email
+          age__avg
+          id__count_distinct
         }
-        orderBy: [{ column: "id", order: "asc" }]
-        limit: 10
-        offset: 0
-        groupBy: ["id", "email"]
-        having: {
-          age__avg: {gt: 30}
-        }
-      ) {
-        id
-        email
-        age__avg
       }
-    }
   `
 
     expect(await client.query({ query: query })).toMatchSnapshot()
@@ -249,6 +255,25 @@ export const query = () => {
         offset: 0
         limit: 3
         orderBy: { column: "id", order: "desc" }
+      ) {
+        id
+        title
+      }
+    }
+  `
+
+    expect(await client.query({ query: query })).toMatchSnapshot()
+  })
+
+  test('test distinct', async () => {
+    const query = gql`
+    query {
+      queryPost(
+        where: { id: { gt: 1 } }
+        offset: 0
+        limit: 3
+        orderBy: { column: "id", order: "desc" }
+        distinct: true
       ) {
         id
         title

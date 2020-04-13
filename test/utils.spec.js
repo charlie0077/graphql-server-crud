@@ -1,12 +1,5 @@
-import { isEmpty, asyncForEach } from '../src/utils'
+import { asyncForEach } from '../src/utils'
 import 'regenerator-runtime/runtime'
-
-test('isEmpty should work', () => {
-  expect(isEmpty(null)).toBe(true)
-  expect(isEmpty(undefined)).toBe(true)
-  expect(isEmpty({})).toBe(true)
-  expect(isEmpty({ a: 1 })).toBe(false)
-})
 
 test('asyncForEach should run', async () => {
   let sum = 0

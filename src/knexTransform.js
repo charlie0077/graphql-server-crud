@@ -14,6 +14,14 @@ const onMethodMapping = {
   default: 'on'
 }
 
+const havingMethodMapping = {
+  in: 'havingIn',
+  nin: 'havingNotIn',
+  between: 'havingBetween',
+  nbetween: 'havingNotBetween',
+  default: 'having'
+}
+
 const methodMapping = {
   in: 'whereIn',
   nin: 'whereNotIn',
@@ -43,6 +51,7 @@ function operatorMap (opr) {
   }
 
   const oprLower = opr.toLowerCase()
+  /* istanbul ignore if  */
   if (!Object.keys(mapping).includes(oprLower)) {
     throw Error(`Not supported operator: ${opr}`)
   }
@@ -109,11 +118,6 @@ function addOn (selection, query, table) {
   // process normal fields
   entries.forEach(entry => {
     const col = entry[0]
-    // AND and OR SYMBOL are ignored in on
-    if ([AND_SYMBOL, OR_SYMBOL].includes(col)) {
-      return
-    }
-
     const expr = entry[1]
     const exprEntry = Object.entries(expr)[0]
 
@@ -121,8 +125,7 @@ function addOn (selection, query, table) {
       const method = onMethodMapping[exprEntry[0]]
       selection = selection[method](`${table}.${col}`, exprEntry[1])
     } else {
-      const method = 'on'
-      selection = selection[method](`${table}.${col}`, operatorMap(exprEntry[0]), exprEntry[1])
+      selection = selection.on(`${table}.${col}`, operatorMap(exprEntry[0]), exprEntry[1])
     }
   })
 }
@@ -160,14 +163,9 @@ function having (selection, query, knex, table) {
       col = `${table}.${col}`
     }
 
-    if (exprEntry[0] === 'in') {
-      selection = selection.havingIn(col, exprEntry[1])
-    } else if (exprEntry[0] === 'nin') {
-      selection = selection.havingNotIn(col, exprEntry[1])
-    } else if (exprEntry[0] === 'between') {
-      selection = selection.havingBetween(col, exprEntry[1])
-    } else if (exprEntry[0] === 'nbetween') {
-      selection = selection.havingNotBetween(col, exprEntry[1])
+    if (Object.keys(havingMethodMapping).includes(exprEntry[0])) {
+      const method = havingMethodMapping[exprEntry[0]]
+      selection = selection[method](col, exprEntry[1])
     } else {
       selection = selection.having(col, operatorMap(exprEntry[0]), exprEntry[1])
     }
@@ -202,6 +200,8 @@ function join (sql, context, model, parsedResolveInfo) {
     const tableName = fieldModel.table
     const joinHint = model.fields[modelFieldName]
     const joinMethod = modelField.args.joinType || 'join'
+
+    /* istanbul ignore if  */
     if (!['join', 'leftJoin', 'rightJoin', 'fullOuterJoin', 'crossJoin'].includes(joinMethod)) {
       throw new Error(`Invalid join type: ${joinMethod}`)
     }
@@ -235,7 +235,7 @@ function join (sql, context, model, parsedResolveInfo) {
   })
 }
 
-function transformRead (sql, args, limit, offset, knex, context, model) {
+function transformRead (sql, args, limit, offset, context, model) {
   const table = model.baseTable()
   sql = sql.limit(limit)
   sql = sql.offset(offset)
@@ -251,7 +251,7 @@ function transformRead (sql, args, limit, offset, knex, context, model) {
     })
   }
 
-  const fields = getFields(args.parsedResolveInfo, knex, table)
+  const fields = getFields(args.parsedResolveInfo, model.knex, table)
   if (fields) {
     sql = sql.select(fields)
   }
@@ -263,7 +263,7 @@ function transformRead (sql, args, limit, offset, knex, context, model) {
   join(sql, context, model, args.parsedResolveInfo)
   where(sql, args.where, table)
   groupBy(sql, args.groupBy, table)
-  having(sql, args.having, knex, table)
+  having(sql, args.having, model.knex, table)
 
   return sql
 }
@@ -330,6 +330,8 @@ function buildModelResultMapping (res, parentChild, fieldTableMapping) {
     for (const child in ids[parent]) {
       for (const id in ids[parent][child]) {
         ids[parent][child][id] = Array.from(ids[parent][child][id])
+        // sort so that the result is consistent
+        ids[parent][child][id].sort()
       }
     }
   }

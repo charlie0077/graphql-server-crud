@@ -1,15 +1,7 @@
 const _ = require('lodash')
 
-function isEmpty (obj) {
-  return (obj === undefined) || (obj === null) || (Object.keys(obj).length === 0)
-}
-
 function buildInstance (Model) {
-  if (typeof Model === 'function') {
-    return new Model()
-  } else {
-    return Model
-  }
+  return typeof Model === 'function' ? new Model() : Model
 }
 
 async function asyncForEach (array, callback) {
@@ -27,6 +19,7 @@ function buildModelInstancesMapping (models) {
   models.forEach(model => {
     const modelInstance = buildInstance(model)
     const name = modelInstance.constructor.name.toLowerCase()
+    /* istanbul ignore if  */
     if (name in modelInstancesMapping) {
       throw new Error(`Duplicate model detected: ${modelInstance.constructor.name}`)
     }
@@ -65,7 +58,6 @@ function getStringFieldsFromInfo (parsedResolveInfo) {
 }
 
 module.exports = {
-  isEmpty,
   buildInstance,
   asyncForEach,
   buildModelInstancesMapping,

@@ -95,63 +95,73 @@ Object {
     "queryAuthorJoinPost": Array [
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
-        "age__avg": 88,
-        "email": "vilurazu@vuse.tk",
-        "id": 1,
-      },
-      Object {
-        "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 32,
         "email": "pi@ga.co.uk",
         "id": 6,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 54,
         "email": "on@puveca.in",
         "id": 8,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 35,
         "email": "cor@viiru.jp",
         "id": 9,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 33,
         "email": "ijsettav@mo.tl",
         "id": 10,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 34,
         "email": "ige@pib.ph",
         "id": 11,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 70,
         "email": "avo@ped.cc",
         "id": 12,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 61,
         "email": "de@bosdufzi.ps",
         "id": 13,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 69,
         "email": "ru@etu.er",
         "id": 14,
+        "id__count_distinct": 1,
       },
       Object {
         "__typename": "AuthorJoinPostWithAggregation",
         "age__avg": 89,
         "email": "kezhupur@topevgos.gov",
         "id": 15,
+        "id__count_distinct": 1,
+      },
+      Object {
+        "__typename": "AuthorJoinPostWithAggregation",
+        "age__avg": 48,
+        "email": "tema@jakdez.bb",
+        "id": 16,
+        "id__count_distinct": 1,
       },
     ],
   },
@@ -165,6 +175,33 @@ exports[`Query Tests test complicate search 1`] = `
 Object {
   "data": Object {
     "queryAuthor": Array [],
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false,
+}
+`;
+
+exports[`Query Tests test distinct 1`] = `
+Object {
+  "data": Object {
+    "queryPost": Array [
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": 99,
+        "title": "Nokcar conuk mi rub rokdul en tunnegov zojan.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": 98,
+        "title": "Jeaka govut iva liczizig denbu ecjob fov amofi.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "id": 97,
+        "title": "Buufa judosbup ec mepecmu nezojeave sehgieru foakepi emgotez.",
+      },
+    ],
   },
   "loading": false,
   "networkStatus": 7,
@@ -214,18 +251,22 @@ Object {
         ],
         "email": "pi@ga.co.uk",
         "id": 6,
-        "post": Array [
-          Object {
-            "__typename": "Post",
-            "id": 19,
-            "title": "Guh erude ujane so giz ip huwi ac.",
-          },
-        ],
+        "post": null,
         "review": Array [
           Object {
             "__typename": "Review",
             "id": 5,
             "star": 4.9355,
+          },
+          Object {
+            "__typename": "Review",
+            "id": 6,
+            "star": 3.9008,
+          },
+          Object {
+            "__typename": "Review",
+            "id": 9,
+            "star": 3.1633,
           },
         ],
       },
@@ -234,7 +275,13 @@ Object {
         "company": null,
         "email": "bodtanhuw@viv.mm",
         "id": 7,
-        "post": null,
+        "post": Array [
+          Object {
+            "__typename": "Post",
+            "id": 1,
+            "title": "Igijuto ne ruj mab ipju dan ros benozezu.",
+          },
+        ],
         "review": Array [
           Object {
             "__typename": "Review",
@@ -254,14 +301,13 @@ Object {
         ],
         "email": "on@puveca.in",
         "id": 8,
-        "post": Array [
-          Object {
-            "__typename": "Post",
-            "id": 22,
-            "title": "Labita to fuis ozi umluhel devbas da bokve.",
-          },
-        ],
+        "post": null,
         "review": Array [
+          Object {
+            "__typename": "Review",
+            "id": 12,
+            "star": 1.7863,
+          },
           Object {
             "__typename": "Review",
             "id": 7,
@@ -280,28 +326,32 @@ Object {
         ],
         "email": "cor@viiru.jp",
         "id": 9,
-        "post": Array [
-          Object {
-            "__typename": "Post",
-            "id": 14,
-            "title": "Woweh fuhgijpo enuha dilkah poceise oki aficet siw.",
-          },
-          Object {
-            "__typename": "Post",
-            "id": 12,
-            "title": "Ahno leusa jilogver wudejipe sacil tokmuwel ci osojgod.",
-          },
-          Object {
-            "__typename": "Post",
-            "id": 16,
-            "title": "Ug holzotez ovo gezde catug leogdu fino jag.",
-          },
-        ],
+        "post": null,
         "review": Array [
           Object {
             "__typename": "Review",
             "id": 7,
             "star": 4.1723,
+          },
+        ],
+      },
+      Object {
+        "__typename": "AuthorWithAggregation",
+        "company": Array [
+          Object {
+            "__typename": "Company",
+            "domain": "kaved.sc",
+            "id": 6,
+          },
+        ],
+        "email": "ijsettav@mo.tl",
+        "id": 10,
+        "post": null,
+        "review": Array [
+          Object {
+            "__typename": "Review",
+            "id": 14,
+            "star": 3.2936,
           },
         ],
       },
@@ -316,18 +366,7 @@ Object {
         ],
         "email": "ige@pib.ph",
         "id": 11,
-        "post": Array [
-          Object {
-            "__typename": "Post",
-            "id": 17,
-            "title": "Necebil vuhe ado dogva ricab tupbaobe ir me.",
-          },
-          Object {
-            "__typename": "Post",
-            "id": 23,
-            "title": "Jif tafkih pezla rikosido zorod zu suzuwu hutu.",
-          },
-        ],
+        "post": null,
         "review": Array [
           Object {
             "__typename": "Review",
@@ -393,167 +432,14 @@ Object {
             "company": Array [
               Object {
                 "__typename": "Company",
-                "domain": "nitdopfiz.ro",
-              },
-            ],
-            "email": "monal@veh.gu",
-          },
-        ],
-        "id": 2,
-        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ur.ne",
-              },
-            ],
-            "email": "nuviv@po.bz",
-          },
-        ],
-        "id": 4,
-        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "nouco.cn",
-              },
-            ],
-            "email": "ur@moej.wf",
-          },
-        ],
-        "id": 5,
-        "title": "Pumav pe heva wepma totu vohkatzi wa mamcop.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "befog.mt",
-              },
-            ],
-            "email": "pi@ga.co.uk",
-          },
-        ],
-        "id": 6,
-        "title": "Ewa oku lufbu erehec jeda ci ej ru.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "kaved.sc",
-              },
-            ],
-            "email": "on@puveca.in",
-          },
-        ],
-        "id": 8,
-        "title": "Gip vu suhahumuk jovli hu epi veisu mewcorhem.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "uvi.ky",
-              },
-            ],
-            "email": "cor@viiru.jp",
-          },
-        ],
-        "id": 9,
-        "title": "Jilperuk mev waz jec ma mehodotub hogpa tu.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "kaved.sc",
-              },
-            ],
-            "email": "ijsettav@mo.tl",
-          },
-        ],
-        "id": 10,
-        "title": "Wizlovoj tihig ge mes vidfice oc eru ko.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
                 "domain": "ji.bh",
               },
             ],
-            "email": "ige@pib.ph",
+            "email": "kezhupur@topevgos.gov",
           },
         ],
-        "id": 11,
-        "title": "Rubcuci wak acami isime luzibavub gulfajogu vesi fegipzu.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "uvi.ky",
-              },
-            ],
-            "email": "avo@ped.cc",
-          },
-        ],
-        "id": 12,
-        "title": "Ahno leusa jilogver wudejipe sacil tokmuwel ci osojgod.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ji.bh",
-              },
-            ],
-            "email": "de@bosdufzi.ps",
-          },
-        ],
-        "id": 13,
-        "title": "Dajwin kusez pilic esobu gewbehdil hewuham hec wez.",
+        "id": 15,
+        "title": "Surlueke mabce vogdiol vun liwibifi he him jol.",
       },
       Object {
         "__typename": "PostWithAggregation",
@@ -583,11 +469,164 @@ Object {
                 "domain": "ji.bh",
               },
             ],
-            "email": "kezhupur@topevgos.gov",
+            "email": "de@bosdufzi.ps",
           },
         ],
-        "id": 15,
-        "title": "Surlueke mabce vogdiol vun liwibifi he him jol.",
+        "id": 13,
+        "title": "Dajwin kusez pilic esobu gewbehdil hewuham hec wez.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "uvi.ky",
+              },
+            ],
+            "email": "avo@ped.cc",
+          },
+        ],
+        "id": 12,
+        "title": "Ahno leusa jilogver wudejipe sacil tokmuwel ci osojgod.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "ji.bh",
+              },
+            ],
+            "email": "ige@pib.ph",
+          },
+        ],
+        "id": 11,
+        "title": "Rubcuci wak acami isime luzibavub gulfajogu vesi fegipzu.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "kaved.sc",
+              },
+            ],
+            "email": "ijsettav@mo.tl",
+          },
+        ],
+        "id": 10,
+        "title": "Wizlovoj tihig ge mes vidfice oc eru ko.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "uvi.ky",
+              },
+            ],
+            "email": "cor@viiru.jp",
+          },
+        ],
+        "id": 9,
+        "title": "Jilperuk mev waz jec ma mehodotub hogpa tu.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "kaved.sc",
+              },
+            ],
+            "email": "on@puveca.in",
+          },
+        ],
+        "id": 8,
+        "title": "Gip vu suhahumuk jovli hu epi veisu mewcorhem.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "befog.mt",
+              },
+            ],
+            "email": "pi@ga.co.uk",
+          },
+        ],
+        "id": 6,
+        "title": "Ewa oku lufbu erehec jeda ci ej ru.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "nouco.cn",
+              },
+            ],
+            "email": "ur@moej.wf",
+          },
+        ],
+        "id": 5,
+        "title": "Pumav pe heva wepma totu vohkatzi wa mamcop.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "ur.ne",
+              },
+            ],
+            "email": "nuviv@po.bz",
+          },
+        ],
+        "id": 4,
+        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
+      },
+      Object {
+        "__typename": "PostWithAggregation",
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "nitdopfiz.ro",
+              },
+            ],
+            "email": "monal@veh.gu",
+          },
+        ],
+        "id": 2,
+        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
       },
     ],
   },
@@ -1437,31 +1476,14 @@ Object {
             "company": Array [
               Object {
                 "__typename": "Company",
-                "domain": "nitdopfiz.ro",
+                "domain": "rinovka.nc",
               },
             ],
-            "email": "monal@veh.gu",
+            "email": "vi@wez.in",
           },
         ],
-        "id": 2,
-        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
-      },
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ur.ne",
-              },
-            ],
-            "email": "nuviv@po.bz",
-          },
-        ],
-        "id": 4,
-        "title": "Totunusa kazaha ruguk di zuvon mojfogow datiha ewa.",
+        "id": 0,
+        "title": "Udwirte nifenlu ubugahuf rugnu huweg raskew fawkidij lomoru.",
       },
       Object {
         "__typename": "PostWithAggregation",
@@ -1645,23 +1667,6 @@ exports[`Query Tests test nested query leftJoin and then join 1`] = `
 Object {
   "data": Object {
     "queryPost": Array [
-      Object {
-        "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "nitdopfiz.ro",
-              },
-            ],
-            "email": "monal@veh.gu",
-          },
-        ],
-        "id": 2,
-        "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
-      },
       Object {
         "__typename": "PostWithAggregation",
         "author": Array [
@@ -1863,13 +1868,32 @@ Object {
     "queryPost": Array [
       Object {
         "__typename": "PostWithAggregation",
-        "author": null,
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": Array [
+              Object {
+                "__typename": "Company",
+                "domain": "nitdopfiz.ro",
+              },
+            ],
+            "email": "monal@veh.gu",
+            "id": 2,
+          },
+        ],
         "id": 2,
         "title": "Pojawri lotnemip ipemuipi ridvuh oddale judiniin ve cerhub.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": null,
+        "author": Array [
+          Object {
+            "__typename": "Author",
+            "company": null,
+            "email": "ribupe@iddi.ye",
+            "id": 3,
+          },
+        ],
         "id": 3,
         "title": "Gokgor kezli lazgoh gaw nite mewseun do supma.",
       },
@@ -1911,358 +1935,145 @@ Object {
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "befog.mt",
-              },
-            ],
-            "email": "pi@ga.co.uk",
-            "id": 6,
-          },
-        ],
+        "author": null,
         "id": 6,
         "title": "Ewa oku lufbu erehec jeda ci ej ru.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "bodtanhuw@viv.mm",
-            "id": 7,
-          },
-        ],
+        "author": null,
         "id": 7,
         "title": "Go reco ludlu iv guwselteg jalvi ru fe.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "kaved.sc",
-              },
-            ],
-            "email": "on@puveca.in",
-            "id": 8,
-          },
-        ],
+        "author": null,
         "id": 8,
         "title": "Gip vu suhahumuk jovli hu epi veisu mewcorhem.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "uvi.ky",
-              },
-            ],
-            "email": "cor@viiru.jp",
-            "id": 9,
-          },
-        ],
+        "author": null,
         "id": 9,
         "title": "Jilperuk mev waz jec ma mehodotub hogpa tu.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "kaved.sc",
-              },
-            ],
-            "email": "ijsettav@mo.tl",
-            "id": 10,
-          },
-        ],
+        "author": null,
         "id": 10,
         "title": "Wizlovoj tihig ge mes vidfice oc eru ko.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ji.bh",
-              },
-            ],
-            "email": "ige@pib.ph",
-            "id": 11,
-          },
-        ],
+        "author": null,
         "id": 11,
         "title": "Rubcuci wak acami isime luzibavub gulfajogu vesi fegipzu.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "uvi.ky",
-              },
-            ],
-            "email": "avo@ped.cc",
-            "id": 12,
-          },
-        ],
+        "author": null,
         "id": 12,
         "title": "Ahno leusa jilogver wudejipe sacil tokmuwel ci osojgod.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ji.bh",
-              },
-            ],
-            "email": "de@bosdufzi.ps",
-            "id": 13,
-          },
-        ],
+        "author": null,
         "id": 13,
         "title": "Dajwin kusez pilic esobu gewbehdil hewuham hec wez.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "pidunog.fr",
-              },
-            ],
-            "email": "ru@etu.er",
-            "id": 14,
-          },
-        ],
+        "author": null,
         "id": 14,
         "title": "Woweh fuhgijpo enuha dilkah poceise oki aficet siw.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": Array [
-              Object {
-                "__typename": "Company",
-                "domain": "ji.bh",
-              },
-            ],
-            "email": "kezhupur@topevgos.gov",
-            "id": 15,
-          },
-        ],
+        "author": null,
         "id": 15,
         "title": "Surlueke mabce vogdiol vun liwibifi he him jol.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "tema@jakdez.bb",
-            "id": 16,
-          },
-        ],
+        "author": null,
         "id": 16,
         "title": "Ug holzotez ovo gezde catug leogdu fino jag.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "kejihud@os.gov",
-            "id": 17,
-          },
-        ],
+        "author": null,
         "id": 17,
         "title": "Necebil vuhe ado dogva ricab tupbaobe ir me.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "agiziejo@ha.mn",
-            "id": 18,
-          },
-        ],
+        "author": null,
         "id": 18,
         "title": "Gekpaguvo berogi ad cuckoboz dijjujat zovucini ikle nog.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "ehief@capgov.sb",
-            "id": 19,
-          },
-        ],
+        "author": null,
         "id": 19,
         "title": "Guh erude ujane so giz ip huwi ac.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "goob@palihimuf.na",
-            "id": 20,
-          },
-        ],
+        "author": null,
         "id": 20,
         "title": "Ve ma pe wobta jet ahuicacow mi dacinut.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "jidmafad@raliciwuk.ba",
-            "id": 21,
-          },
-        ],
+        "author": null,
         "id": 21,
         "title": "Fisoz okosufor apu gujwep wuhvuraj ti sesfeko intohni.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "wes@ah.vg",
-            "id": 22,
-          },
-        ],
+        "author": null,
         "id": 22,
         "title": "Labita to fuis ozi umluhel devbas da bokve.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "sutizcac@mucmig.pr",
-            "id": 23,
-          },
-        ],
+        "author": null,
         "id": 23,
         "title": "Jif tafkih pezla rikosido zorod zu suzuwu hutu.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "ramiw@tuecce.ax",
-            "id": 24,
-          },
-        ],
+        "author": null,
         "id": 24,
         "title": "Pegopfek relveic dufu ce ke ejebebo azdevjuk zog.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "rehi@feb.kn",
-            "id": 25,
-          },
-        ],
+        "author": null,
         "id": 25,
         "title": "Iro rap fetwa utoumoba kut mup cew an.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "ep@tuceaha.de",
-            "id": 26,
-          },
-        ],
+        "author": null,
         "id": 26,
         "title": "Higril jig boc vitalvi bet lot salwe dot.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "riar@neejuco.cx",
-            "id": 27,
-          },
-        ],
+        "author": null,
         "id": 27,
         "title": "Rim ezoatvin nutzazuc pew wa ik pimtij vefan.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "jazhepu@locudup.eg",
-            "id": 28,
-          },
-        ],
+        "author": null,
         "id": 28,
         "title": "Toskudtoj lu po imabefid vep ze iffaf obe.",
       },
       Object {
         "__typename": "PostWithAggregation",
-        "author": Array [
-          Object {
-            "__typename": "Author",
-            "company": null,
-            "email": "neh@lesrufrum.uy",
-            "id": 29,
-          },
-        ],
+        "author": null,
         "id": 29,
         "title": "Ju ziz wun dove nonuwig pedmerje ifo comsihcum.",
       },

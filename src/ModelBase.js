@@ -29,6 +29,9 @@ class ModelBase {
     // setting this to true enables query dump
     knexDebug = false
 
+    // logger
+    logger = console.log
+
     // color mappings for logger
     colorMapping = {
       GET: '#52BE80',
@@ -45,7 +48,7 @@ class ModelBase {
       let sql = this.knexE()
       // add limit and offset
       const { limit, offset } = this.getLimitOffset(args)
-      sql = transformRead(sql, args, limit, offset, this.knex, context[CONTEXT_KEY], this)
+      sql = transformRead(sql, args, limit, offset, context[CONTEXT_KEY], this)
       return sql
     }
 
@@ -165,6 +168,7 @@ class ModelBase {
     }
 
     checkKnex () {
+      /* istanbul ignore if  */
       if (this.knex === null) {
         const chalkFormat = chalk.hex('#FF0000')
         const message = chalkFormat('Error: knex passed to the model should not be null. Please set it in your model.')
@@ -185,9 +189,6 @@ class ModelBase {
       }
 
       return { limit, offset }
-    }
-
-    logger (message) {
     }
 
     async before (args, context, info) {}

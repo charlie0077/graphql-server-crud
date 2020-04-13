@@ -1,15 +1,15 @@
 const { gql } = require('apollo-server')
 const commonTypes = require('./commonTypes')
-const { isEmpty, buildModelInstancesMapping } = require('./utils')
+const { buildModelInstancesMapping } = require('./utils')
 const _ = require('lodash')
 
 function addTypeDefs (typeDefs, models) {
   const modelInstancesMapping = buildModelInstancesMapping(models)
   const modelInstances = Object.values(modelInstancesMapping)
   const modelNameSet = new Set(modelInstances.map(instance => instance.constructor.name))
-  const typesGenerated = modelInstances.map(model => buildTypes(model, modelNameSet)).filter(x => !isEmpty(x))
-  const queryGenerated = modelInstances.map(model => buildQuery(model)).filter(x => !isEmpty(x))
-  const mutationGenerated = modelInstances.map(model => buildMutation(model)).filter(x => !isEmpty(x))
+  const typesGenerated = modelInstances.map(model => buildTypes(model, modelNameSet)).filter(x => !_.isEmpty(x))
+  const queryGenerated = modelInstances.map(model => buildQuery(model)).filter(x => !_.isEmpty(x))
+  const mutationGenerated = modelInstances.map(model => buildMutation(model)).filter(x => !_.isEmpty(x))
   typeDefs.push(commonTypes, ...typesGenerated, ...queryGenerated, ...mutationGenerated)
   return typeDefs
 }
@@ -19,6 +19,7 @@ function buildTypes (model, modelNameSet) {
   let modelFieldType = ''
   let aggPartial = ''
   let filter = ''
+  let onFilter = ''
   let havingFilter = ''
   const modelName = model.constructor.name
 
@@ -40,13 +41,15 @@ function buildTypes (model, modelNameSet) {
 
       type += `${property}: ${fieldType}\n`
       filter += `${property}: ${fieldType}Filter\n`
+      onFilter += `${property}: ${fieldType}Filter\n`
     } else {
       if (_.isObjectLike(fieldType)) {
         fieldType = fieldType.type
       }
 
+      /* istanbul ignore else  */
       if (modelNameSet.has(fieldType)) {
-        modelFieldType += `${property}(on: ${fieldType}Filter, joinType: String): [${fieldType}]\n`
+        modelFieldType += `${property}(on: ${fieldType}OnFilter, joinType: String): [${fieldType}]\n`
       } else {
         throw new Error(`Invalid model type "${fieldType}" detected in model "${modelName}"`)
       }
@@ -75,6 +78,10 @@ function buildTypes (model, modelNameSet) {
 
     input ${modelName}Filter {
       ${filter}
+    }
+
+    input ${modelName}OnFilter {
+      ${onFilter}
     }
 
     input ${modelName}HavingFilter {
