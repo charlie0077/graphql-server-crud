@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+docs/.vuepress/dist
+dist
+.nyc_output

@@ -1,0 +1,37 @@
+version: 2.1
+orbs:
+  node: circleci/node@2.0.1
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/node:12.16
+        environment:
+          POSTGRES_PORT: 5432
+
+      - image: circleci/postgres:9.6.5-alpine-ram
+        environment:
+          POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_DB: test
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: npm install
+      - run: npm run lint
+      - run:
+          name: run server
+          command: npm run start-server
+          background: true
+      - run:
+          name: Wait for server
+          command: dockerize -wait tcp://localhost:4000 -timeout 1m
+      - run: npm run test
+      - run: npm run coverage
+workflows:
+  build-and-test:
+    jobs:
+      - build-and-test
