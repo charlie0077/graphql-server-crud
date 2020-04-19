@@ -41,22 +41,6 @@ class PostJoinAuthor extends JoinBase {
     from posts p left join authors a
     on a.id = p.author_id
   `
-
-  fields = {
-    post_id: 'Int',
-    author_id: 'Int',
-    first_name: 'String',
-    last_name: 'String',
-    age: 'Float',
-    email: 'String',
-    title: 'String',
-    review: {
-      type: 'Review',
-      from: `${DERIVED_TABLE}.author_id`,
-      to: 'reviews.id',
-      through: { from: 'author_review.author_id', to: 'author_review.review_id' }
-    }
-  }
 }
 
 module.exports = { AuthorJoinPost, PostJoinAuthor }

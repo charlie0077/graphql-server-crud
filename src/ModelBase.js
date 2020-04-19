@@ -119,7 +119,6 @@ class ModelBase {
       if (this.knexDebug) {
         const chalkFormat = chalk.hex(this.colorMapping[type])
         const message = chalkFormat(`----------  ${type} QUERY (${this.constructor.name}) ---------\n ${sql.toString()}\n`)
-        console.log(message)
         this.logger(message)
       }
     }
