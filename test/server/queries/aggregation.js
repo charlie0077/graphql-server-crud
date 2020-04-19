@@ -5,7 +5,7 @@ const queries = [
       query {
         queryAuthorJoinPost(
           where: { post_id: { gt: 2 }, id: {gt: 3} }
-          orderBy: [{ column: "score__sum", order: "desc" }]
+          orderBy: [{ column: "score__max", order: "desc" }]
           limit: 10
           offset: 0
           groupBy: ["id", "email"]
@@ -14,7 +14,7 @@ const queries = [
           id
           email
           age__avg
-          score__sum
+          score__max
         }
       }
     `
