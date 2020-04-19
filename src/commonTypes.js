@@ -5,52 +5,48 @@ const commonTypes = gql`
     gt: String
     gte: String
     lt: String
-    lte: [String!]
+    lte: String
     eq: String
     ne: String
     in: [String!]
     nin: [String!]
     between: [String!]
     nbetween: [String!]
-    exist: Boolean
-    nexist: Boolean
+    null: Boolean
   }
 
   input FloatFilter {
     gt: Float
     gte: Float
     lt: Float
-    lte: [Float!]
+    lte: Float
     eq: Float
     ne: Float
     in: [Float!]
     nin: [Float!]
     between: [Float!]
     nbetween: [Float!]
-    exist: Boolean
-    nexist: Boolean
+    null: Boolean
   }
 
   input IntFilter {
     gt: Int
     gte: Int
     lt: Int
-    lte: [Int!]
+    lte: Int
     eq: Int
     ne: Int
     in: [Int!]
     nin: [Int!]
     between: [Int!]
     nbetween: [Int!]
-    exist: Boolean
-    nexist: Boolean
+    null: Boolean
   }
 
   input BooleanFilter {
-    is: Boolean
-    nis: Boolean
-    exist: Boolean
-    nexist: Boolean
+    eq: Int
+    ne: Int
+    null: Boolean
   }
 
   input OrderBy {

@@ -11,7 +11,14 @@ class JoinBase extends Base {
     last_name: 'String',
     email: 'String',
     post_id: 'Int',
-    title: 'String'
+    score: 'Float',
+    title: 'String',
+    review: {
+      type: ['Review'],
+      from: `${DERIVED_TABLE}.author_id`,
+      to: 'reviews.id',
+      through: { from: 'author_review.author_id', to: 'author_review.review_id' }
+    }
   }
 
   // no mutation will be created because of this
@@ -20,7 +27,7 @@ class JoinBase extends Base {
 
 class AuthorJoinPost extends JoinBase {
   table = `
-    select a.id as id, a.id as author_id, a.age, a.first_name, a.last_name, a.email, p.id as post_id, p.title
+    select a.id as id, a.id as author_id, a.age, a.first_name, a.last_name, a.email, p.id as post_id, p.title, p.score
     from authors a left join posts p
     on a.id = p.author_id
   `
@@ -30,7 +37,7 @@ class PostJoinAuthor extends JoinBase {
   uniqueColumn = 'post_id'
 
   table = `
-    select p.id as post_id, a.id as author_id, a.age, a.first_name, a.last_name, a.email, p.title
+    select p.id as post_id, a.id as author_id, a.age, a.first_name, a.last_name, a.email, p.title, p.score
     from posts p left join authors a
     on a.id = p.author_id
   `

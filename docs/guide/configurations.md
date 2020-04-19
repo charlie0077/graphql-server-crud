@@ -5,10 +5,14 @@ The following **configuration** exists in your **model**.
 You can refer the [this](https://github.com/charlie0077/graphql-server-crud/blob/master/example/model) for examples.
 
 ## knex
+[knex](http://knexjs.org/#Installation-node/) is used in the library and it is required to pass to the library. You still conrol the logic of defining knex according to your environment and requirements, for example, deployment in serverless may need a different knex connection pool size. 
+
 This is the knex function which usually is defined by:
 ```js 
 const knex = require('knex')(config)
 ```
+
+If you are not familiar with knex, do not worry too much about it. It is just a query builder and you can follow their great [doc](http://knexjs.org/#Installation-node) to get started within minutes. You can also refer to the [example]([this](https://github.com/charlie0077/graphql-server-crud/blob/master/example)) for a complete setup.
 
 ## table
 This is the table name or a derived table.
@@ -22,6 +26,9 @@ Following fields are allowed currently:
 ```js
 queryToGenerate = ['INSERT', 'DELETE', 'UPDATE', 'GET', 'QUERY', 'BULK_INSERT', 'BULK_UPDATE', 'BULK_DELETE']
 ```
+
+## uniqueColumn
+The unique column name, default to "id"
 
 ## knexDebug
 Enable this to see some debug info about sql.

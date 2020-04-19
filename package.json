@@ -1,6 +1,6 @@
 {
   "name": "graphql-server-crud",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "charlie0077/graphql-server-crud",
   "homepage": "https://nostalgic-perlman-fe9f48.netlify.com/guide/",
   "description": "Create GraphQL API server CRUD without boilerplate code",

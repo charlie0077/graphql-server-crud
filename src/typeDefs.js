@@ -43,13 +43,22 @@ function buildTypes (model, modelNameSet) {
       filter += `${property}: ${fieldType}Filter\n`
       onFilter += `${property}: ${fieldType}Filter\n`
     } else {
+      let isArray = false
       if (_.isObjectLike(fieldType)) {
         fieldType = fieldType.type
+        if (_.isArray(fieldType)) {
+          fieldType = fieldType[0]
+          isArray = true
+        }
       }
 
       /* istanbul ignore else  */
       if (modelNameSet.has(fieldType)) {
-        modelFieldType += `${property}(on: ${fieldType}OnFilter, joinType: String): [${fieldType}]\n`
+        if (isArray) {
+          modelFieldType += `${property}(on: ${fieldType}OnFilter, joinType: String): [${fieldType}]\n`
+        } else {
+          modelFieldType += `${property}(on: ${fieldType}OnFilter, joinType: String): ${fieldType}\n`
+        }
       } else {
         throw new Error(`Invalid model type "${fieldType}" detected in model "${modelName}"`)
       }
@@ -99,7 +108,8 @@ function buildQuery (model) {
   if (model.queryToGenerate.includes('QUERY')) {
     partial += `query${modelName}(
       where: ${modelName}Filter,
-      distinct: Boolean, 
+      distinct: [String],
+      distinctOn: [String],
       groupBy: [String], 
       having: ${modelName}HavingFilter, 
       limit: Int, offset: Int, 

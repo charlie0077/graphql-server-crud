@@ -50,6 +50,7 @@ function addMethod (selection, model, method, modelInstancesMapping) {
       args.parsedResolveInfo = parseResolveInfo(info)
       // console.dir(args.parsedResolveInfo, { depth: 5 })
       context[CONTEXT_KEY] = {
+        parsedResolveInfo: parseResolveInfo(info),
         actionName: method,
         modelInstancesMapping: modelInstancesMapping
       }

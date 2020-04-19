@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { transformRead, transformReadResult } = require('./knexTransform')
+const { transformRead, addNestedFields } = require('./knexTransform')
 const chalk = require('chalk')
 const { asyncForEach, getStringFieldsFromInfo } = require('./utils')
 const _ = require('lodash')
@@ -115,18 +115,21 @@ class ModelBase {
       return this.executeQuery(sql, 'BULK_DELETE', args, context)
     }
 
-    async executeQuery (sql, type, args, context) {
-      this.addReturning(sql, type, args)
-
+    debugKenex (sql, type) {
       if (this.knexDebug) {
         const chalkFormat = chalk.hex(this.colorMapping[type])
         const message = chalkFormat(`----------  ${type} QUERY (${this.constructor.name}) ---------\n ${sql.toString()}\n`)
+        console.log(message)
         this.logger(message)
       }
+    }
 
-      let res = await sql
+    async executeQuery (sql, type, args, context) {
+      this.addReturning(sql, type, args)
+      this.debugKenex(sql, type)
+      const res = await sql
       if (['GET', 'SEARCH'].includes(type)) {
-        res = transformReadResult(res, args, context[CONTEXT_KEY], this)
+        await addNestedFields(res, context[CONTEXT_KEY], this)
       }
 
       if (type.includes('SEARCH') || type.includes('BULK')) {

@@ -20,7 +20,8 @@ async function createTable (knex) {
       last_name text,
       email text,
       age bigint,
-      salary float
+      salary float,
+      active boolean
     );`,
     'DROP TABLE IF EXISTS "posts";',
     `CREATE TABLE posts (
@@ -86,7 +87,8 @@ async function seedAuthors (knex) {
         "last_name",
         "email",
         "age",
-        "salary"
+        "salary",
+        "active"
       )
     VALUES
       (
@@ -96,7 +98,8 @@ async function seedAuthors (knex) {
         '${chance.name({ nationality: 'en' }).replace('\'', '')}',
         '${chance.email()}',
         ${chance.integer({ min: 0, max: 70 }) + 20},
-        ${chance.floating({ min: 100, max: 10000 })}
+        ${chance.floating({ min: 100, max: 10000 })},
+        ${chance.bool()}
       );
     `)
   }

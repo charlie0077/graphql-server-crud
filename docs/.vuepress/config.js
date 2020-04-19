@@ -15,6 +15,7 @@ module.exports = {
                 children: [
                     '/guide/',
                     '/guide/getting-started',
+                    '/guide/model',
                     '/guide/queries',
                     '/guide/mutations',
                     '/guide/configurations'
