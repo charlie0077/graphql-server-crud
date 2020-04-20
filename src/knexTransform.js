@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { addOrCreate, swapKeyValue, asyncForEach } = require('./utils')
+const { addOrCreate, swapKeyValue } = require('./utils')
 const { BASE_TABLE } = require('./constants')
 
 const OR_SYMBOL = '_or'
