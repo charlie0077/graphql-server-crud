@@ -43,4 +43,4 @@ class PostJoinAuthor extends JoinBase {
   `
 }
 
-module.exports = { AuthorJoinPost, PostJoinAuthor }
+module.exports = { AuthorJoinPost: new AuthorJoinPost(), PostJoinAuthor: new PostJoinAuthor() }

@@ -39,4 +39,4 @@ class Author extends Base {
   queryToGenerate = ['GET', 'QUERY']
 }
 
-module.exports = { Author }
+module.exports = { Author: new Author() }

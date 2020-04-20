@@ -43,26 +43,10 @@ function swapKeyValue (object) {
   return newObject
 }
 
-function getFieldsFromInfo (parsedResolveInfo) {
-  return Object.values(Object.values(parsedResolveInfo.fieldsByTypeName)[0])
-}
-
-function getModelFieldsFromInfo (parsedResolveInfo) {
-  const fields = getFieldsFromInfo(parsedResolveInfo)
-  return fields.filter(field => !_.isEmpty(field.fieldsByTypeName))
-}
-
-function getStringFieldsFromInfo (parsedResolveInfo) {
-  const fields = getFieldsFromInfo(parsedResolveInfo)
-  return fields.filter(field => _.isEmpty(field.fieldsByTypeName))
-}
-
 module.exports = {
   buildInstance,
   asyncForEach,
   buildModelInstancesMapping,
   addOrCreate,
-  swapKeyValue,
-  getModelFieldsFromInfo,
-  getStringFieldsFromInfo
+  swapKeyValue
 }

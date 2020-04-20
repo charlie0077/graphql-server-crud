@@ -17,4 +17,4 @@ class Post extends Base {
   }
 }
 
-module.exports = { Post }
+module.exports = { Post: new Post() }

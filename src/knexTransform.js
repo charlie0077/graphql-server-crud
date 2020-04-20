@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { addOrCreate, swapKeyValue, getStringFieldsFromInfo, getModelFieldsFromInfo, asyncForEach } = require('./utils')
+const { addOrCreate, swapKeyValue, asyncForEach } = require('./utils')
 const { BASE_TABLE } = require('./constants')
 
 const OR_SYMBOL = '_or'
@@ -188,9 +188,7 @@ function having (selection, query, knex, table) {
   })
 }
 
-function getFields (parsedResolveInfo, model, table) {
-  const stringFields = getStringFieldsFromInfo(parsedResolveInfo)
-  const fields = stringFields.map(field => field.name)
+function getFields (fields, model, table) {
   // always select unique column, so that we know how to rearrange the result later
   fields.push(model.uniqueColumn)
 
@@ -210,9 +208,10 @@ function getFields (parsedResolveInfo, model, table) {
   return res
 }
 
-function transformRead (sql, args, limit, offset, context, model) {
+function transformRead (sql, args, limit, offset, model) {
   const table = model.baseTable()
-  context.modelInstancesMapping[BASE_TABLE] = model
+  // TODO: fix this; it does not work when multiple query running
+  model.modelInstancesMapping[BASE_TABLE] = model
   sql = sql.limit(limit)
   sql = sql.offset(offset)
 
@@ -232,7 +231,7 @@ function transformRead (sql, args, limit, offset, context, model) {
     })
   }
 
-  const fields = getFields(args.parsedResolveInfo, model, table)
+  const fields = getFields(args.select, model, table)
   if (fields) {
     sql = sql.select(fields)
   }
@@ -266,8 +265,8 @@ function getTableNames (res) {
   return names
 }
 
-function buildModelResultMapping (res, parentChild, context) {
-  const fieldTableMapping = buildFiledTableMapping(context)
+function buildModelResultMapping (res, parentChild, modelInstancesMapping) {
+  const fieldTableMapping = buildFiledTableMapping(modelInstancesMapping)
   const tableNames = getTableNames(res)
   const tableFieldMapping = swapKeyValue(fieldTableMapping)
   const mapping = {}
@@ -277,7 +276,7 @@ function buildModelResultMapping (res, parentChild, context) {
 
   const uniqueColumnMapping = {}
   tableNames.forEach(tableName => {
-    const uniqueColumn = context.modelInstancesMapping[tableFieldMapping[tableName]].uniqueColumn
+    const uniqueColumn = modelInstancesMapping[tableFieldMapping[tableName]].uniqueColumn
     uniqueColumnMapping[tableName] = `${tableName}${JOIN_TABLE_SEPARATOR}${uniqueColumn}`
   })
 
@@ -329,25 +328,24 @@ function buildModelResultMapping (res, parentChild, context) {
   return { mapping, ids }
 }
 
-function getParentChild (parsedResolveInfo) {
-  function dfs (parentChild, current, parsedResolveInfo) {
-    const modelFields = getModelFieldsFromInfo(parsedResolveInfo)
-    modelFields.forEach(field => {
-      parentChild.add([current, field.name])
-      dfs(parentChild, field.name, field)
-    })
+function getParentChild (includeField) {
+  function dfs (parentChild, key, value) {
+    for (const fieldName in value.include) {
+      parentChild.add([key, fieldName])
+      dfs(parentChild, fieldName, value.include[fieldName])
+    }
   }
 
   const parentChild = new Set()
-  dfs(parentChild, parsedResolveInfo.name, parsedResolveInfo)
+  dfs(parentChild, Object.keys(includeField)[0], Object.values(includeField)[0])
   return parentChild
 }
 
-function fillNestedValue (current, nestedRes, modelResultMapping, parsedResolveInfo, context) {
-  const currentModel = context.modelInstancesMapping[current]
+function fillNestedValue (current, nestedRes, modelResultMapping, includeField, modelInstancesMapping) {
+  const [child, includeFieldValue] = Object.entries(includeField)[0]
+  const currentModel = modelInstancesMapping[current]
   const ids = modelResultMapping.ids
   const objects = modelResultMapping.mapping
-  const child = parsedResolveInfo.name
   const isOneToOneMapping = _.isString(currentModel.fields[child].type)
 
   // determine idColumn
@@ -357,7 +355,6 @@ function fillNestedValue (current, nestedRes, modelResultMapping, parsedResolveI
     idColumn = `${current}${JOIN_TABLE_SEPARATOR}${idColumn}`
   }
 
-  const childModelFields = getModelFieldsFromInfo(parsedResolveInfo)
   nestedRes.forEach(record => {
     record[child] = ids[current][child][record[idColumn]]
 
@@ -366,54 +363,55 @@ function fillNestedValue (current, nestedRes, modelResultMapping, parsedResolveI
       if (isOneToOneMapping) {
         record[child] = record[child] ? record[child][0] : null
       }
-      childModelFields.forEach(each => {
+
+      for (const each in includeFieldValue.include) {
         if (isOneToOneMapping) {
-          fillNestedValue(child, [record[child]], modelResultMapping, each, context)
+          fillNestedValue(child, [record[child]], modelResultMapping, { [each]: includeFieldValue.include[each] }, modelInstancesMapping)
         } else {
-          fillNestedValue(child, record[child], modelResultMapping, each, context)
+          fillNestedValue(child, record[child], modelResultMapping, { [each]: includeFieldValue.include[each] }, modelInstancesMapping)
         }
-      })
+      }
     }
   })
 }
 
-function buildFiledTableMapping (context) {
+function buildFiledTableMapping (modelInstancesMapping) {
   const mapping = {}
-  for (const name in context.modelInstancesMapping) {
-    mapping[name] = context.modelInstancesMapping[name].table
+  for (const name in modelInstancesMapping) {
+    mapping[name] = modelInstancesMapping[name].table
   }
   mapping[BASE_TABLE] = BASE_TABLE
   return mapping
 }
 
-async function addNestedFields (res, context, model) {
+async function addNestedFields (res, args, model) {
   if (res.length === 0) return res
-  const modelFields = getModelFieldsFromInfo(context.parsedResolveInfo)
-  await asyncForEach(modelFields, async modelField => {
-    await addNestedField(res, context, model, modelField)
-  })
+  for (const each in args.include) {
+    await addNestedField(res, model, { [each]: args.include[each] })
+  }
 }
 
-async function addNestedField (res, context, model, modelField) {
+async function addNestedField (res, model, includeField) {
   if (res.length === 0) return res
   const baseIds = res.map(each => each[model.uniqueColumn])
   const baseTableName = model.baseTable()
-  const joinHint = model.fields[modelField.name]
+  const fieldName = Object.keys(includeField)[0]
+  const joinHint = model.fields[fieldName]
 
   const baseRelationColumnRename = `${BASE_TABLE}${JOIN_TABLE_SEPARATOR}${model.uniqueColumn}`
   let sql = model.knexE().whereIn(`${baseTableName}.${model.uniqueColumn}`, baseIds)
   sql = sql.select(`${baseTableName}.${model.uniqueColumn} as ${baseRelationColumnRename}`)
 
-  join(sql, context, joinHint, modelField)
+  join(sql, model.modelInstancesMapping, joinHint, includeField)
 
   model.debugKenex(sql, 'SEARCH')
   const nestedRes = await sql
-  const parentChild = getParentChild(modelField)
-  parentChild.add([BASE_TABLE, modelField.name])
+  const parentChild = getParentChild(includeField)
+  parentChild.add([BASE_TABLE, fieldName])
 
-  const modelResultMapping = buildModelResultMapping(nestedRes, parentChild, context)
-  fillNestedValue(BASE_TABLE, nestedRes, modelResultMapping, modelField, context)
-  mergeNestedValueToBase(res, model.uniqueColumn, modelField.name, nestedRes, baseRelationColumnRename)
+  const modelResultMapping = buildModelResultMapping(nestedRes, parentChild, model.modelInstancesMapping)
+  fillNestedValue(BASE_TABLE, nestedRes, modelResultMapping, includeField, model.modelInstancesMapping)
+  mergeNestedValueToBase(res, model.uniqueColumn, fieldName, nestedRes, baseRelationColumnRename)
 }
 
 function mergeNestedValueToBase (baseRes, baseUniqueColumn, fieldName, nestedRes, baseRelationColumnRename) {
@@ -427,11 +425,11 @@ function mergeNestedValueToBase (baseRes, baseUniqueColumn, fieldName, nestedRes
   })
 }
 
-function join (sql, context, joinHint, modelField) {
-  const modelFieldName = modelField.name
-  const fieldModel = context.modelInstancesMapping[modelFieldName]
+function join (sql, modelInstancesMapping, joinHint, includeField) {
+  const [includeFieldName, includeFieldValue] = Object.entries(includeField)[0]
+  const fieldModel = modelInstancesMapping[includeFieldName]
   const tableName = fieldModel.table
-  const joinMethod = modelField.args.joinType || 'leftJoin'
+  const joinMethod = includeFieldValue.joinType || 'leftJoin'
 
   /* istanbul ignore if  */
   if (!['join', 'innerJoin', 'leftJoin', 'rightJoin', 'fullOuterJoin', 'crossJoin'].includes(joinMethod)) {
@@ -445,30 +443,28 @@ function join (sql, context, joinHint, modelField) {
 
     sql = sql[joinMethod](tableName, function () {
       this.on(joinHint.to, '=', joinHint.through.to)
-      addOn(this, modelField.args.on, tableName)
+      addOn(this, includeFieldValue.on, tableName)
     })
   } else {
     sql = sql[joinMethod](tableName, function () {
       this.on(joinHint.from, '=', joinHint.to)
-      addOn(this, modelField.args.on, tableName)
+      addOn(this, includeFieldValue.on, tableName)
     })
   }
 
   // select string fields of this layer
-  const stringFields = getStringFieldsFromInfo(modelField)
+  const stringFields = includeFieldValue.select
   // add id filed so that is easy to infer later
-  stringFields.push({ name: fieldModel.uniqueColumn })
-  stringFields.forEach(stringField => {
-    const colName = stringField.name
+  stringFields.push(fieldModel.uniqueColumn)
+  stringFields.forEach(colName => {
     sql = sql.select(`${tableName}.${colName} as ${tableName}${JOIN_TABLE_SEPARATOR}${colName}`)
   })
 
   // join the next layer
-  const childModelFields = getModelFieldsFromInfo(modelField)
-  childModelFields.forEach(each => {
-    const joinHint = fieldModel.fields[each.name]
-    join(sql, context, joinHint, each)
-  })
+  for (const each in includeFieldValue.include) {
+    const joinHint = fieldModel.fields[each]
+    join(sql, modelInstancesMapping, joinHint, { [each]: includeFieldValue.include[each] })
+  }
 }
 
 module.exports = { transformRead, addNestedFields }

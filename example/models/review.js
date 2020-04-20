@@ -12,4 +12,4 @@ class Review extends Base {
   queryToGenerate = []
 }
 
-module.exports = { Review }
+module.exports = { Review: new Review() }

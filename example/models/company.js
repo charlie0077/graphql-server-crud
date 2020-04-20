@@ -1,3 +1,5 @@
+const { Author } = require('./author')
+
 const { Base } = require('./base')
 
 class Company extends Base {
@@ -13,6 +15,9 @@ class Company extends Base {
 
   async before (args, context, info) {
     console.log('This is invoked before any query/mutatin to company')
+
+    const res = await Author.get({ id: 2, select: ['age'], include: { review: { select: ['star'] } } })
+    console.log('This is the reviews for author 2:', res.review)
   }
 
   async after (args, context, info) {
@@ -20,4 +25,4 @@ class Company extends Base {
   }
 }
 
-module.exports = { Company }
+module.exports = { Company: new Company() }

@@ -14,7 +14,7 @@ class Base extends ModelBase {
   defaultOffset = 0
 
   // configure query timeout
-  timeout = 1000
+  timeout = 5000
 }
 
 module.exports = { Base }

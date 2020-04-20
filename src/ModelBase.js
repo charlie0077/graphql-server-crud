@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const { transformRead, addNestedFields } = require('./knexTransform')
 const chalk = require('chalk')
-const { asyncForEach, getStringFieldsFromInfo } = require('./utils')
+const { asyncForEach } = require('./utils')
 const _ = require('lodash')
-const { CONTEXT_KEY, DERIVED_TABLE } = require('./constants')
+const { DERIVED_TABLE } = require('./constants')
 
 class ModelBase {
     // this is the actual knex function
@@ -47,72 +47,74 @@ class ModelBase {
       BULK_DELETE: '#F1948A'
     }
 
-    searchQuery (args, context) {
+    searchQuery (args) {
+      args.select = args.select || []
+
       let sql = this.knexE()
       // add limit and offset
       const { limit, offset } = this.getLimitOffset(args)
-      sql = transformRead(sql, args, limit, offset, context[CONTEXT_KEY], this)
+      sql = transformRead(sql, args, limit, offset, this)
       return sql
     }
 
-    async query (args, context) {
-      const sql = this.searchQuery(args, context)
-      return this.executeQuery(sql, 'SEARCH', args, context)
+    async query (args) {
+      const sql = this.searchQuery(args)
+      return this.executeQuery(sql, 'SEARCH', args)
     }
 
-    async get (args, context) {
+    async get (args) {
       args.where = { id: { eq: args.id } }
       args.limit = 1
       args.offset = 0
 
-      const sql = this.searchQuery(args, context)
-      return this.executeQuery(sql, 'GET', args, context)
+      const sql = this.searchQuery(args)
+      return this.executeQuery(sql, 'GET', args)
     }
 
-    async insert (args, context) {
+    async insert (args) {
       let sql = this.knexE()
       sql = sql.insert(args.data)
 
-      return this.executeQuery(sql, 'INSERT', args, context)
+      return this.executeQuery(sql, 'INSERT', args)
     }
 
-    async bulkInsert (args, context) {
+    async bulkInsert (args) {
       let sql = this.knexE()
       sql = sql.insert(args.data)
 
-      return this.executeQuery(sql, 'BULK_INSERT', args, context)
+      return this.executeQuery(sql, 'BULK_INSERT', args)
     }
 
-    async update (args, context) {
+    async update (args) {
       let sql = this.knexE()
       sql = sql.where('id', args.data.id).update(args.data)
 
-      return this.executeQuery(sql, 'UPDATE', args, context)
+      return this.executeQuery(sql, 'UPDATE', args)
     }
 
-    async bulkUpdate (args, context) {
+    async bulkUpdate (args) {
       // TODO: need to make it one query and better error status/handling
       const res = []
       await asyncForEach(args.data, async each => {
         const arg = { data: each }
-        const resEach = await this.update(arg, context)
+        const resEach = await this.update(arg)
         res.push(resEach)
       })
       return res
     }
 
-    async delete (args, context) {
+    async delete (args) {
       let sql = this.knexE()
       sql = sql.where('id', args.data.id).delete()
-      return this.executeQuery(sql, 'DELETE', args, context)
+      return this.executeQuery(sql, 'DELETE', args)
     }
 
-    async bulkDelete (args, context) {
+    async bulkDelete (args) {
       let sql = this.knexE()
       const ids = args.data.map(x => x.id)
       sql = sql.whereIn('id', ids).delete()
 
-      return this.executeQuery(sql, 'BULK_DELETE', args, context)
+      return this.executeQuery(sql, 'BULK_DELETE', args)
     }
 
     debugKenex (sql, type) {
@@ -123,12 +125,15 @@ class ModelBase {
       }
     }
 
-    async executeQuery (sql, type, args, context) {
+    async executeQuery (sql, type, args) {
+      args.select = args.select || []
+      args.includes = args.includes || {}
+
       this.addReturning(sql, type, args)
       this.debugKenex(sql, type)
       const res = await sql
       if (['GET', 'SEARCH'].includes(type)) {
-        await addNestedFields(res, context[CONTEXT_KEY], this)
+        await addNestedFields(res, args, this)
       }
 
       if (type.includes('SEARCH') || type.includes('BULK')) {
@@ -141,7 +146,7 @@ class ModelBase {
     addReturning (sql, type, args) {
       const returning = !['GET', 'QUERY'].includes(type)
       if (returning) {
-        const returnFields = getStringFieldsFromInfo(args.parsedResolveInfo).map(field => field.name)
+        const returnFields = args.select
         if (returnFields.length > 0) { sql = sql.returning(returnFields) }
       }
     }

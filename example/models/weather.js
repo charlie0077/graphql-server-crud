@@ -30,4 +30,4 @@ class Weather extends Base {
   }
 }
 
-module.exports = { Weather }
+module.exports = { Weather: new Weather() }
