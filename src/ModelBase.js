@@ -63,6 +63,10 @@ class ModelBase {
     }
 
     async get (args) {
+      if (!_.isObjectLike(args)) {
+        args = { id: args }
+      }
+
       args.where = { id: { eq: args.id } }
       args.limit = 1
       args.offset = 0
