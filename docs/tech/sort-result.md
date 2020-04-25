@@ -1,0 +1,2 @@
+# Sort result
+You may notice that sometimes your data is not sorted correctly. Usually it has to to with bigint and string, please check [here](https://stackoverflow.com/questions/39168501/pg-promise-returns-integers-as-strings/39176670#39176670) for the problem and solution.

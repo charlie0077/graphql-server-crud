@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+src
+test
+example
+coverage
+.eslint.rc
+.babelrc
+docs
+.nyc_output

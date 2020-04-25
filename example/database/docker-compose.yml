@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  db:
+    image: "postgres:12"
+    container_name: "crud_postgres"
+    ports:
+      - "6666:5432"
+    volumes:
+    volumes:
+       - my-crud-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test
+
+volumes:
+  my-crud-db-data:
