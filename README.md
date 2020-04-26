@@ -113,7 +113,7 @@ query {
 ```
 
 ## How it works
-You define a **model**. The library generates common GraphQL schema, resolvers logic for you. To support complicate search queries(filter, groupBy, join, nested fields, etc), it also has a built-in **compiler** to compile the filter input to [knex](http://knexjs.org/) code. A **MobelBase** class is provided to you so that you can build your custom logic on top of it. You can also use the **model** as your database client in any place of your logic.
+You define a **model**. The library generates common GraphQL schema, resolvers logic for you. To support complicate search queries(filter, groupBy, join, nested fields, etc), it also has a built-in **compiler** to compile the filter input to [knex](http://knexjs.org/) code. A **ModelBase** class is provided to you so that you can build your custom logic on top of it. You can also use the **model** as your database client in any place of your logic.
 
 ## Features
 * logic generation for schema
