@@ -22,15 +22,8 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: npm install
       - run: npm run lint
-      - run:
-          name: run server
-          command: npm run start-server
-          background: true
-      - run:
-          name: Wait for server
-          command: dockerize -wait tcp://localhost:4000 -timeout 1m
-      - run: npm run test
-      - run: npm run coverage
+      - run: npm run test-coverage
+      - run: npm run codecov
 workflows:
   build-and-test:
     jobs:

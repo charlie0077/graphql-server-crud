@@ -17,8 +17,8 @@
     "server": "nodemon example/index.js",
     "seed": "npx knex seed:run --knexfile=./example/knexfile.js",
     "test": "env $(cat .env) npm run seed && jest --runInBand --detectOpenHandles --forceExit",
-    "test-coverage": "env $(cat .cov.env) npm run seed && env $(cat .cov.env) nyc --reporter=lcov --include src node example/index.js & sleep 5 && env $(cat .cov.env) jest --runInBand --detectOpenHandles --forceExit && kill $(lsof -t -i tcp:4567) && nyc report --reporter=html",
-    "coverage": "codecov"
+    "test-coverage": "env $(cat .cov.env) npm run seed && env $(cat .cov.env) nyc --reporter=lcov --include src node example/index.js & sleep 5 && env $(cat .cov.env) jest --runInBand --detectOpenHandles --forceExit && pkill node && nyc report --reporter=html",
+    "codecov": "codecov"
   },
   "author": "Zhenchao Chen",
   "license": "MIT",
