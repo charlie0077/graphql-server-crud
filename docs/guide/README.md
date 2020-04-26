@@ -1,5 +1,5 @@
 # Introduction
-This is a lightweight framework/library to help you build a GraphQL server efficiently. It aims to reduce your code size, save you time and gives you the flexibilities you need.
+This is a lightweight javascript framework/library to help you build a GraphQL server efficiently. It aims to reduce your code size, save you time and gives you the flexibilities you need.
 
 ## Philosophy
 * Reduce the CRUD related code you need to write.
