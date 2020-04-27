@@ -130,3 +130,10 @@ You define a **model**. The library generates common GraphQL schema, resolvers l
 
 
 Please go to [https://nostalgic-perlman-fe9f48.netlify.com](https://nostalgic-perlman-fe9f48.netlify.com/guide/) for the complete documentation.
+
+# Contributing
+You are always welcome to contribute to the project.
+
+Thanks for all your wonderful PRs, issues and ideas.
+
+[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/0)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/0)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/1)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/1)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/2)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/2)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/3)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/3)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/4)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/4)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/5)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/5)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/6)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/6)[![](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/images/7)](https://sourcerer.io/fame/charlie0077/charlie0077/graphql-server-crud/links/7)
