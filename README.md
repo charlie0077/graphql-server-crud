@@ -47,7 +47,8 @@ class Company extends ModelBase {
 Add these followinng lines to your root typeDefs and resolvers variables.
 
 ``` js
-// add default typeDefs and resolvers
+// Add default typeDefs and resolvers
+// You only need to do this once regardless of the number of models you have
 const { addTypeDefs, addResolvers } = require('graphql-server-crud')
 const models = require('./models')
 addTypeDefs(typeDefs, models)
