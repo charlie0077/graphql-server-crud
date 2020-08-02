@@ -44,8 +44,8 @@ const commonTypes = gql`
   }
 
   input BooleanFilter {
-    eq: Int
-    ne: Int
+    eq: Boolean
+    ne: Boolean
     null: Boolean
   }
 
