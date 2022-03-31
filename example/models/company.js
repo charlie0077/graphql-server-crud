@@ -17,7 +17,7 @@ class Company extends Base {
   }
 
   async before (args, context, info) {
-    console.log('This is invoked before any query/mutatin to company')
+    console.log('This is invoked before any query/mutation to company')
 
     const author1 = await Author.get(1)
     console.log('This is author 1:', author1)
@@ -37,7 +37,7 @@ class Company extends Base {
   }
 
   async after (args, context, info) {
-    console.log('This is invoked after any query/mutatin to company')
+    console.log('This is invoked after any query/mutation to company')
   }
 }
 
