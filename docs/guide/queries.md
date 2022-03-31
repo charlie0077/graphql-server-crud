@@ -96,7 +96,7 @@ query {
 ```
 
 
-### A differnt shape of various relations
+### A different shape of various relations
 ```graphql
 query {
     queryPost(
@@ -355,7 +355,7 @@ query {
 }
 ```
 
-## Pagenation
+## Pagination
 ### Limit and offset
 ```graphql
 query {

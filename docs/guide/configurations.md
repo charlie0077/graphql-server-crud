@@ -2,7 +2,7 @@
 
 The following **configuration** exists in your **model**.
 
-You can refer the [this](https://github.com/charlie0077/graphql-server-crud/blob/master/example/model) for examples.
+You can refer to [this](https://github.com/charlie0077/graphql-server-crud/blob/master/example/models) for examples.
 
 ## knex
 [knex](http://knexjs.org/#Installation-node/) is used in the library and it is required to pass to the library. You still conrol the logic of defining knex according to your environment and requirements, for example, deployment in serverless may need a different knex connection pool size. 

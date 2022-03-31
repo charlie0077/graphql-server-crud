@@ -1,7 +1,7 @@
 # Database Client
 
 
-The **model** class inteface is designed to be abled to be shared by GraphQL request(request from your GraphQL client) and other bussiness logic(request from your server code). You can also use the **model** class as your **database client**. 
+The **model** class interface is designed to be able to be shared by GraphQL requests (request from your GraphQL client) and other business logic (request from your server code). You can also use the **model** class as your **database client**. 
 
 Here is an example:
 
